@@ -2,32 +2,29 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nodejs
+  labels:
+    tags.datadoghq.com/env: "prod"
+    tags.datadoghq.com/service: "my_nodejs_app"
+    tags.datadoghq.com/version: "1.0"
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: nodejs
   template:
-    metadata:
+    metadata:       
+      annotations:
+        ad.datadoghq.com/tags: '{"service: "my_nodejs_app"}'
+        admission.datadoghq.com/js-lib.version: "latest"    
       labels:
         app: nodejs
-        admission.datadoghq.com/enabled: "true"
-      annotations:
-        admission.datadoghq.com/js-lib.version: "latest"
+        tags.datadoghq.com/env: "prod"
+        tags.datadoghq.com/service: "my_java_app"
+        tags.datadoghq.com/version: "1.0"
+        admission.datadoghq.com/enabled: "true" 
     spec:
       containers:
         - name: sample-node-app
           image: wwongpai/sample-node-noapm-new:1.0
           ports:
             - containerPort: 8080
-          env:
-            - name: DD_ENV
-              value: "prod"
-            - name: DD_SERVICE
-              value: "my_nodejs_app"
-            - name: DD_VERSION
-              value: "1.0.0"
-            - name: DD_AGENT_HOST
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.hostIP
