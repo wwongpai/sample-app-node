@@ -19,7 +19,7 @@ spec:
       labels:
         app: nodejs
         tags.datadoghq.com/env: "prod"
-        tags.datadoghq.com/service: "my_java_app"
+        tags.datadoghq.com/service: "my_nodejs_app"
         tags.datadoghq.com/version: "1.0"
         admission.datadoghq.com/enabled: "true" 
     spec:
